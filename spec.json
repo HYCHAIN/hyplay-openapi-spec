@@ -2776,7 +2776,7 @@
     "/v1/apps/{appId}/users/{userId}/referrals": {
       "get": {
         "operationId": "getAppUserReferrals",
-        "summary": "Get app user",
+        "summary": "Get app user referrals",
         "description": "Returns all ids and usernames of referrals for the given userId and appId.",
         "tags": [
           "Apps"
