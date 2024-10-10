@@ -1928,7 +1928,7 @@
       "post": {
         "operationId": "createLeaderboardScore",
         "summary": "Create leaderboard score",
-        "description": "Create a score for the provided leaderboardId. Leaderboard scores can be provided for any user id when the app secret key authorization is provided. Alternatively, a user may submit their own scores by provided their session authorization, with a request body containing `score` and `hash`. A valid `hash` is intended to be generated for each score within the game client as sha256(leaderboardKey:userId:score:scoreType). If scoreType is ommitted, the hash should be generated as sha256(leaderboardKey:userId:score).",
+        "description": "Create a score for the provided leaderboardId. Leaderboard scores can be provided for any user id when the app secret key authorization is provided. Alternatively, a user may submit their own scores by provided their session authorization, with a request body containing `score` and `hash`. A valid `hash` is intended to be generated for each score within the game client as sha256(leaderboardKey:userId:score:scoreType). If scoreType is omitted, the hash should be generated as sha256(leaderboardKey:userId:score).",
         "tags": [
           "Leaderboards"
         ],
