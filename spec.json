@@ -4174,6 +4174,153 @@
             "$ref": "#/components/responses/400"
           }
         }
+      },
+      "post": {
+        "operationId": "createUser",
+        "summary": "Create user",
+        "description": "Creates a new user using a provided username and password. A user must have an authority wallet assigned before it can be used for transactions or authorize sessions.",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "minLength": 4,
+                    "description": "The users desired username."
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "An email address to associate with the user for account recovery."
+                  },
+                  "shaPassword": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64,
+                    "format": "password",
+                    "description": "A sha256 hash of the users plaintext password.",
+                    "example": "07ecafaf8304b8a12016ad05fd498e2ab338c1bcac31cb3f002386ef4ea917ad"
+                  }
+                },
+                "required": [
+                  "username",
+                  "shaPassword"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created a new user. Returns a user object. Before the users can start session or perform transactions, their authority wallet must first be set using the PATCH /v1/users endpoint.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          }
+        }
+      }
+    },
+    "/v1/users/auth": {
+      "get": {
+        "operationId": "authUser",
+        "summary": "Authenticate user",
+        "description": "Authenticates a user for the provided email/username and shaPassword, or creates or retrieves a user for the provided sso auth code. Return a user object containing an access token.\nIf a user is preregistered or has not completed their account setup such as assigning their authority wallet or setting their password, as long as they have had an email assigned to their account, a one-time password can be emailed to the user. This can be done by using the basic auth flow and omitting the password field or passing an empty string for the password.\nYou can then auth the user by providing the sha256(one time password) equivalent as the password for this auth endpoint.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/queryAccessTokenExpiresAt"
+          },
+          {
+            "$ref": "#/components/parameters/queryResetAccessToken"
+          },
+          {
+            "$ref": "#/components/parameters/queryAppleAuthCode"
+          },
+          {
+            "$ref": "#/components/parameters/queryAppleRedirectOverride"
+          },
+          {
+            "$ref": "#/components/parameters/queryDiscordAuthCode"
+          },
+          {
+            "$ref": "#/components/parameters/queryDiscordRedirectOverride"
+          },
+          {
+            "$ref": "#/components/parameters/queryFacebookAuthCode"
+          },
+          {
+            "$ref": "#/components/parameters/queryFacebookRedirectOverride"
+          },
+          {
+            "$ref": "#/components/parameters/queryGoogleAuthCode"
+          },
+          {
+            "$ref": "#/components/parameters/queryGoogleRedirectOverride"
+          },
+          {
+            "$ref": "#/components/parameters/queryTwitterAuthCode"
+          },
+          {
+            "$ref": "#/components/parameters/queryTwitterRedirectOverride"
+          }
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {}
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully authorized the user and returns a user object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/UserModel"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "socialKeyMaterial": {
+                          "type": "string"
+                        },
+                        "wallet": {
+                          "$ref": "#/components/schemas/WalletModel"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Successfully emailed a one-time password to a preregistered user."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
       }
     },
     "/v1/users/me": {

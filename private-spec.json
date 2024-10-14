@@ -4176,7 +4176,6 @@
         }
       },
       "post": {
-        "x-visibility": "private",
         "operationId": "createUser",
         "summary": "Create user",
         "description": "Creates a new user using a provided username and password. A user must have an authority wallet assigned before it can be used for transactions or authorize sessions.",
@@ -4334,7 +4333,6 @@
     },
     "/v1/users/auth": {
       "get": {
-        "x-visibility": "private",
         "operationId": "authUser",
         "summary": "Authenticate user",
         "description": "Authenticates a user for the provided email/username and shaPassword, or creates or retrieves a user for the provided sso auth code. Return a user object containing an access token.\nIf a user is preregistered or has not completed their account setup such as assigning their authority wallet or setting their password, as long as they have had an email assigned to their account, a one-time password can be emailed to the user. This can be done by using the basic auth flow and omitting the password field or passing an empty string for the password.\nYou can then auth the user by providing the sha256(one time password) equivalent as the password for this auth endpoint.",
