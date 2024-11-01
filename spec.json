@@ -2724,7 +2724,7 @@
       "get": {
         "operationId": "getAppUser",
         "summary": "Get app user",
-        "description": "Returns a public user object representing a user of the app that also includes the `totalAppReferrals` property which represents the number of other users the user for the provided userId has referred to the provided appId.",
+        "description": "Returns a public user object representing a user of the app that also includes the `totalAppReferrals` and `totalAppReferreds` properties which represents the number of other users the user for the provided userId has referred to the provided appId.",
         "tags": [
           "Apps"
         ],
@@ -2758,6 +2758,14 @@
                       "type": "object",
                       "properties": {
                         "totalAppReferrals": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "totalAppReferreds": {
                           "type": "integer"
                         }
                       }
