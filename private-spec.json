@@ -150,6 +150,15 @@
           "type": "string"
         }
       },
+      "pathReferralId": {
+        "name": "referralId",
+        "in": "path",
+        "description": "A referral id.",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
       "pathSessionId": {
         "name": "sessionId",
         "in": "path",
@@ -2815,6 +2824,10 @@
                           "items": {
                             "$ref": "#/components/schemas/AppReferralsModel"
                           }
+                        },
+                        "hasMore": {
+                          "type": "boolean",
+                          "description": "Indicates if there are more referrals to fetch after the last cursor."
                         }
                       }
                     }
@@ -2825,6 +2838,41 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          }
+        }
+      }
+    },
+    "/v1/apps/{appId}/users/{userId}/referrals/{referralId}": {
+      "delete": {
+        "operationId": "deleteAppUserReferral",
+        "summary": "Delete app user referral",
+        "description": "Delete a referral for the provided appId, userId and referralId.",
+        "tags": [
+          "Apps"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerAuthorizationUser"
+          },
+          {
+            "$ref": "#/components/parameters/pathAppId"
+          },
+          {
+            "$ref": "#/components/parameters/pathUserId"
+          },
+          {
+            "$ref": "#/components/parameters/pathReferralId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Referral deleted successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
           }
         }
       }
